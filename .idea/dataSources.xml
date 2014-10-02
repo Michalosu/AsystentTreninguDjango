@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1286852928">
+    <data-source source="LOCAL" name="Django default" uuid="dc0bf0d8-9d9d-428e-b6ef-c7f63386ffed">
+      <driver-ref>mysql</driver-ref>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://37.187.99.85/TrainingAssistant</jdbc-url>
+      <user-name>assistant</user-name>
+      <user-password>dfd2dff0dfe4dfeedfcedff0dfcedfefdfdfdf9ddfe1dff8dff8dfdadff8dfcf</user-password>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
