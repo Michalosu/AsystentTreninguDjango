@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load leaflet_tags %}
+{% block content %}
+    <h1>Training</h1>
+    <ul>
+        {% for t in track %}
+            <li>{{ t.lat }} - {{ t.lng }}</li>
+        {% endfor %}
+    </ul>
+    <script type="text/javascript">
+    function map_init_basic (map, options) {
+        L.map('map').setView([51.505, -0.09], 13);
+        {% for t in track %}
+            L.marker([{{ t.lat }}, {{ t.lng }}]).addTo(map);
+        {% endfor %}
+
+
+    }
+    </script>
+    {% leaflet_map "map" callback="window.map_init_basic" %}
+{% endblock %}
