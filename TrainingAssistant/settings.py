@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trainings',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,7 +63,7 @@ DATABASES = {
         'HOST': '37.187.99.85',
         'NAME': 'TrainingAssistant',
         'USER': 'assistant',
-        'PASSWORD': 'xZNDdZdEu7KRRpRe'
+        'PASSWORD': 'MaA2fyQxmwEzrWBm'
     }
 }
 
@@ -71,7 +72,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 

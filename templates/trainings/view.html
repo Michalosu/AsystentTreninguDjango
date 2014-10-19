@@ -1,24 +1,129 @@
 {% extends 'base.html' %}
+{% block bootstrap3_extra_head %}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="http://37.187.99.85/leaflet/MovingMaker.js"></script>
+{% endblock %}
 {% block content %}
-    <h1>Training</h1>
-    <ul>
-        {% for t in track %}
-            <li>{{ t.lat }} - {{ t.lng }}</li>
-        {% endfor %}
-    </ul>
-    <div id="map" style="height: 500px;"></div>
-    <script type="text/javascript">
-        var map = L.map('map').setView([{{ track.0.lat }}, {{ track.0.lng }}], 13);
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-i875mjb7'
-		}).addTo(map);
+    <div class="jumbotron">
+        <h2>Training nr: <span class="label label-default">#{{ training_id }}</span></h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                  <!-- Default panel contents -->
+                  <div class="panel-heading">Basic data</div>
 
-        {% for t in track %}
-            L.marker([{{ t.lat }}, {{ t.lng }}]).addTo(map);
-        {% endfor %}
-    </script>
+                  <!-- Table -->
+                  <table class="table table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Date start</td>
+                        <td>{{ training.date_start|date:"d-m-Y H:i:s" }}</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Date end</td>
+                        <td>{{ training.date_end|date:"d-m-Y H:i:s" }}</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Duration</td>
+                        <td>{{ duration }}</td>
+                    </tr>
+                  </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                  <!-- Default panel contents -->
+                  <div class="panel-heading">Statistics of training</div>
+
+                  <!-- Table -->
+                  <table class="table table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Average speed</td>
+                        <td>10 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Max speed</td>
+                        <td>10 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Calories</td>
+                        <td>{{ calories }}</td>
+                    </tr>
+                  </table>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <!--{% for t in track %}
+                <li>{{ t.lat }} - {{ t.lng }}</li>
+            {% endfor %}!-->
+        </ul>
+        <div class="panel panel-default">
+        <!-- Default panel contents -->
+            <div class="panel-heading">Map</div>
+            <div id="map" style="height: 400px;"></div>
+        </div>
+
+        {% block bootstrap3_extra_script %}
+            <script type="text/javascript">
+                window.onload = function ()
+                {
+                    //var runner = new LeafIcon({iconUrl: 'http://37.187.99.85/leaflet/runner.png'});
+                    var runner = L.icon({
+                        iconUrl: 'http://37.187.99.85/leaflet/runner.png',
+
+                        iconSize:     [38, 95], // size of the icon
+                        shadowSize:   [50, 64], // size of the shadow
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [4, 62],  // the same for the shadow
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    });
+                    var map = L.map('map').setView([{{ track.0.lat }}, {{ track.0.lng }}], 13);
+                    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                        maxZoom: 17,
+                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                        id: 'examples.map-i875mjb7'
+                    }).addTo(map);
+                    pointList = [];
+                    animation = [];
+                    {% for t in track %}
+                        pointList.push([{{ t.lat }}, {{ t.lng }}]);
+                    {% endfor %}
+                    for(var i = 0; i < pointList.length - 1; i++){
+                        animation.push(200);
+                    }
+                    var polyline = L.polyline(pointList, {
+                        color: 'red',
+                        weight: 10,
+                        smoothFactor: 5,
+			            opacity: 0.8
+                    }).addTo(map);
+                    map.fitBounds(polyline.getBounds());
+                    var myMovingMarker = L.Marker.movingMarker(pointList,
+                                            animation, {loop: true, icon: runner}).addTo(map);
+
+                    myMovingMarker.start();
+                }
+            </script>
+        {% endblock %}
+
+    </div>
 {% endblock %}

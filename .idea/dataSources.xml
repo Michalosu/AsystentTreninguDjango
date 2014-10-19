@@ -6,7 +6,7 @@
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://37.187.99.85/TrainingAssistant</jdbc-url>
       <user-name>assistant</user-name>
-      <user-password>dfd2dff0dfe4dfeedfcedff0dfcedfefdfdfdf9ddfe1dff8dff8dfdadff8dfcf</user-password>
+      <user-password>dfe7dfcbdfebdf98dfccdfd3dffbdfd2dfc7dfdddfefdfd0dfd8dffddfe8dfc7</user-password>
       <libraries />
     </data-source>
   </component>
