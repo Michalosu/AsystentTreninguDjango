@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                   <!-- Default panel contents -->
-                  <div class="panel-heading">Basic data</div>
+                  <div class="panel-heading">Podstawowe dane</div>
 
                   <!-- Table -->
                   <table class="table table-hover">
@@ -22,17 +22,17 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td>Date start</td>
+                        <td>Start</td>
                         <td>{{ training.date_start|date:"d-m-Y H:i:s" }}</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Date end</td>
+                        <td>Koniec</td>
                         <td>{{ training.date_end|date:"d-m-Y H:i:s" }}</td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td>Duration</td>
+                        <td>Czas trwania</td>
                         <td>{{ duration }}</td>
                     </tr>
                   </table>
@@ -41,50 +41,78 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                   <!-- Default panel contents -->
-                  <div class="panel-heading">Statistics of training</div>
+                  <div class="panel-heading">Statystyki treningu</div>
 
                   <!-- Table -->
                   <table class="table table-hover">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Value</th>
+                        <th>Nazwa</th>
+                        <th>Wartość</th>
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td>Average speed</td>
-                        <td>10 m/s</td>
+                        <td>Średnia prędkość</td>
+                        <td>{{ avg_speed }} m/s</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Max speed</td>
-                        <td>10 m/s</td>
+                        <td>Max prędkość</td>
+                        <td>{{ max_speed }} m/s</td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td>Calories</td>
+                        <td>Dystans</td>
+                        <td>{{ whole_distance }}m</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Kalorie</td>
                         <td>{{ calories }}</td>
                     </tr>
                   </table>
                 </div>
             </div>
         </div>
-        <ul>
-            <!--{% for t in track %}
-                <li>{{ t.lat }} - {{ t.lng }}</li>
-            {% endfor %}!-->
-        </ul>
         <div class="panel panel-default">
         <!-- Default panel contents -->
             <div class="panel-heading">Map</div>
             <div id="map" style="height: 400px;"></div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">GPS data</div>
 
+                    <!-- Table -->
+                    <table class="table table-hover">
+                        <tr>
+                            <th>#</th>
+                            <th>Lat</th>
+                            <th>Lng</th>
+                            <th>Prędkość</th>
+                            <th>Droga</th>
+                            <th>Czas</th>
+                        </tr>
+                        {% for t in track %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ t.lat }}</td>
+                            <td>{{ t.lng }}</td>
+                            <td>{{ t.speed }}m/s</td>
+                            <td>{{ t.dist }}m</td>
+                            <td>{{ t.delta_time }}s</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
         {% block bootstrap3_extra_script %}
             <script type="text/javascript">
                 window.onload = function ()
                 {
-                    //var runner = new LeafIcon({iconUrl: 'http://37.187.99.85/leaflet/runner.png'});
                     var runner = L.icon({
                         iconUrl: 'http://37.187.99.85/leaflet/runner.png',
 
@@ -113,7 +141,7 @@
                     var polyline = L.polyline(pointList, {
                         color: 'red',
                         weight: 10,
-                        smoothFactor: 5,
+                        smoothFactor: 1,
 			            opacity: 0.8
                     }).addTo(map);
                     map.fitBounds(polyline.getBounds());

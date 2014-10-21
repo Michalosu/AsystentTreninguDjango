@@ -4,7 +4,7 @@ from file_upload import upload
 from django.views.decorators.csrf import csrf_exempt
 from trainings.models import Training, Track
 from django.shortcuts import render_to_response
-from math import hypot, sqrt
+from math import cos, sin, acos
 # Create your views here.
 
 @csrf_exempt
@@ -25,18 +25,36 @@ def view_training(request, training_id):
     x /= 60
     minutes = x % 60
     duration = "{0} min {1} sec".format(minutes, seconds)
-    colories = minutes * 9
+    calories = minutes * 9
 
     training_data = []
+    whole_distance = 0
+    max_speed = 0
+    pk = 180/3.14169
     for i,t in enumerate(track):
         if i == 0:
             distance = 0
             actual_speed = 0
+            delta_time = 0
         else:
-            distance = hypot(track[i].lat - track[i-1].lat, track[i].lng - track[i-1].lng)
-            actual_speed = distance/(track[i].time - track[i-1].time)
-        training_data.append(dict(lat=t.lat, lng=t.lng, act_timestamp=t.time, dist=distance, speed=actual_speed))
+            x1 = float(track[i-1].lat) / pk
+            y1 = float(track[i-1].lng) / pk
+            x2 = float(track[i].lat) / pk
+            y2 = float(track[i].lng) / pk
 
+            t1 = cos(x1)*cos(y1)*cos(x2)*cos(y2)
+            t2 = cos(x1)*sin(y1)*cos(x2)*sin(y2)
+            t3 = sin(x1)*sin(x2)
+            distance = acos(t1 + t2 + t3) * 6366000
+            whole_distance = whole_distance + distance
+            delta_time = (track[i].time - track[i-1].time)/1000
+            actual_speed = distance/(delta_time)
+            if actual_speed > max_speed:
+                max_speed = actual_speed
+        training_data.append(dict(lat=t.lat, lng=t.lng, act_timestamp=t.time, delta_time=delta_time,
+                                  dist=distance, speed=actual_speed))
+    avg_speed = whole_distance / (training.duration/1000)
     return render_to_response('trainings/view.html', {"track": training_data, "training_id": training_id,
                                                       "training": training, "duration": duration,
-                                                      "calories": colories})
+                                                      "calories": calories, "whole_distance": whole_distance,
+                                                      "avg_speed": avg_speed, "max_speed": max_speed})
