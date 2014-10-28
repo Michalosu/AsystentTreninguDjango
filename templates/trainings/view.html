@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="http://37.187.99.85/leaflet/MovingMaker.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="http://37.187.99.85/Flot/excanvas.min.js"></script><![endif]-->
 {% endblock %}
 {% block content %}
     <div class="jumbotron">
@@ -79,6 +80,16 @@
             <div class="panel-heading">Map</div>
             <div id="map" style="height: 400px;"></div>
         </div>
+        <div class="panel panel-default">
+        <!-- Default panel contents -->
+            <div class="panel-heading">Wykres</div>
+            <div id="chart1" style="height: 400px;"></div>
+        </div>
+        <div class="panel panel-default">
+        <!-- Default panel contents -->
+            <div class="panel-heading">Wykres</div>
+            <div id="chart2" style="height: 400px;"></div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -110,6 +121,7 @@
             </div>
         </div>
         {% block bootstrap3_extra_script %}
+            <script language="javascript" type="text/javascript" src="http://37.187.99.85/Flot/jquery.flot.js"></script>
             <script type="text/javascript">
                 window.onload = function ()
                 {
@@ -133,11 +145,14 @@
                     pointList = [];
                     animation = [];
                     {% for t in track %}
+                        time = {{ t.delta_time }};
+                        time *= 100;
                         pointList.push([{{ t.lat }}, {{ t.lng }}]);
+                        animation.push(time);
                     {% endfor %}
-                    for(var i = 0; i < pointList.length - 1; i++){
+                    /*for(var i = 0; i < pointList.length - 1; i++){
                         animation.push(200);
-                    }
+                    }*/
                     var polyline = L.polyline(pointList, {
                         color: 'red',
                         weight: 10,
@@ -149,7 +164,33 @@
                                             animation, {loop: true, icon: runner}).addTo(map);
 
                     myMovingMarker.start();
-                }
+                };
+                $(function() {
+
+                    speed_time = [];
+                    speed_dist = [];
+                    time = 0;
+                    dist = 0;
+                    {% for t in track %}
+                        time = (time + {{ t.delta_time }});
+                        dist = (dist + {{ t.dist }});
+                        speed_time.push([time, {{ t.speed }}]);
+                        speed_dist.push([dist, {{ t.speed }}]);
+                    {% endfor %}
+
+                    $.plot("#chart1", [{
+                        data: speed_time,
+                        lines: { show: true, fill: true },
+                        points: { show: true }
+                    }]);
+                    $.plot("#chart2", [{
+                        data: speed_dist,
+                        lines: { show: true, fill: true },
+                        points: { show: true },
+                        color: "#3338b7"
+                    }]);
+
+                });
             </script>
         {% endblock %}
 

@@ -7,6 +7,8 @@ class Training(models.Model):
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()
     duration = models.IntegerField(max_length=10)
+    distance = models.DecimalField(None, None, 7, 2)
+    max_speed = models.DecimalField(None, None, 7, 2)
     user = models.ForeignKey(User, verbose_name="User")
 
 class Track(models.Model):
