@@ -70,6 +70,15 @@ DATABASES = {
     }
 }
 
+# E-mail
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.michalos.hekko.pl'
+EMAIL_HOST_USER = 'asystent@michalos.hekko.pl'
+EMAIL_HOST_PASSWORD = 'qfiH9abl'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'asystent@treningu.pl'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -77,7 +86,7 @@ LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'Europe/Warsaw'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = False
 

@@ -1,0 +1,12 @@
+{% url 'registration_activate' activation_key as activation_key_url%}
+Witam!
+
+Dziękuję za rejestrcję w systemie "Asystent Treningu".
+
+Aby potwierdzić rejestrację, konieczna jest aktywacja specjalnym tokenem. Wystarczy kliknąć poniższy link.
+Kod będzie aktywny przez {{ expiration_days }} dni:
+
+http://{{ site.domain}}{{ activation_key_url }}
+
+Z poważaniem,
+Michał Owczarek
