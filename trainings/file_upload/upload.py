@@ -46,7 +46,7 @@ def save_file(f):
             actual_speed = distance/(delta_time)
             if actual_speed > max_speed:
                 max_speed = actual_speed
-        Track.objects.create(training=last_id, lat=point['lat'], lng=point['lng'], time=point['time'], )
+        Track.objects.create(training=last_id, lat=point['lat'], lng=point['lng'], time=point['time'] )
 
 
 def calculate_stats(duration):

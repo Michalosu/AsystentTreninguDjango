@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.shortcuts import render
 from file_upload import upload
 from django.views.decorators.csrf import csrf_exempt
@@ -54,4 +55,13 @@ def view_training(request, training_id):
     return render_to_response('trainings/view.html', {"track": training_data, "training_id": training_id,
                                                       "training": training, "duration": duration,
                                                       "calories": calories, "whole_distance": training.distance,
-                                                      "avg_speed": avg_speed, "max_speed": training.max_speed})
+                                                      "avg_speed": avg_speed, "max_speed": training.max_speed},
+                                                    context_instance=RequestContext(request))
+
+def trainings(request):
+    if request.user.is_authenticated():
+        trainings = Training.objects.filter(user=request.user)
+        return render_to_response('trainings/trainings.html', {"trainings": trainings},
+                                  context_instance=RequestContext(request))
+    else:
+        return render_to_response('not_allowed.html', context_instance=RequestContext(request))

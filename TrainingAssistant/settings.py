@@ -79,6 +79,8 @@ EMAIL_HOST_PASSWORD = 'qfiH9abl'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'asystent@treningu.pl'
 
+LOGIN_REDIRECT_URL = '/'
+DEFAULT_GROUP_NAME = "users"
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
