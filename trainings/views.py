@@ -11,11 +11,17 @@ from math import cos, sin, acos, pi, sqrt
 @csrf_exempt
 def upload_file(request):
     if request.method == "POST":
-        upload.save_file(request.FILES['uploaded_file'])
-        return HttpResponse(status=200)
+        code = upload.save_file(request.FILES['uploaded_file'])
+        print(code)
+        if code == 0:
+            return HttpResponse("OK", status=200)
+        elif code == 1:
+            return HttpResponse("User does not exist", status=200)
+        elif code == 2:
+            return HttpResponse("Data empty", status=200)
+
     else:
         return HttpResponse(status=301)
-        #upload(name)
 
 def view_training(request, training_id):
     track = Track.objects.filter(training = training_id)

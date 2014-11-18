@@ -14,30 +14,30 @@
                   <!-- Default panel contents -->
                   <div class="panel-heading">Lista treningów</div>
 
-                  <!-- Table -->
-                  <table class="table table-hover">
-                    <tr>
-                        <th>#</th>
-                        <th>Data rozpoczęcia</th>
-                        <th>Data zakończenia</th>
-                        <th>Czas trwania</th>
-                        <th>Maksymalna prędkość</th>
-                        <th>Przebyty dystans</th>
-                        <th>Link</th>
-                    </tr>
-                    {% for t in trainings %}
+                    <!-- Table -->
+                    <div class="table-responsive">
+                      <table class="table table-hover">
                         <tr>
-                            <td>{{ t.id }}</td>
-                            <td>{{ t.date_start|date:"d-m-Y H:i:s" }}</td>
-                            <td>{{ t.date_end|date:"d-m-Y H:i:s" }}</td>
-                            <td>{{ t.duration }}</td>
-                            <td>{{ t.max_speed }}</td>
-                            <td>{{ t.distance }}</td>
-                            <td><a href="{% url 'view_training' t.id %}" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-search"></span> Zobacz</a></td>
+                            <th>#</th>
+                            <th>Data</th>
+                            <th>Czas trwania</th>
+                            <th>Maksymalna prędkość</th>
+                            <th>Przebyty dystans</th>
+                            <th>Link</th>
                         </tr>
-                    {% endfor %}
-                  </table>
+                        {% for t in trainings %}
+                            <tr>
+                                <td>{{ t.id }}</td>
+                                <td>{{ t.date_start|date:"d-m-Y" }}</td>
+                                <td>{{ t.duration }}</td>
+                                <td>{{ t.max_speed }}</td>
+                                <td>{{ t.distance }}</td>
+                                <td><a href="{% url 'view_training' t.id %}" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-search"></span> Zobacz</a></td>
+                            </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
                 </div>
             </div>
         </div>

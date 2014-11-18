@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^training/(?P<training_id>\d+)/$', views.view_training, name='view_training'),
     url(r'^trainings/', views.trainings, name='trainings'),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^jak-to-dziala/', TemplateView.as_view(template_name='jak-to-dziala.html'), name='about'),
 )
